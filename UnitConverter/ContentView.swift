@@ -44,20 +44,42 @@ struct ContentView: View {
         NavigationStack {
             Form {
                 Section("Unit type") {
-                    Text("Unit type picker")
+                    Picker("Unit type", selection: $selectedUnitType) {
+                        ForEach(unitTypes, id: \.self) { Text($0) }
+                    }
+                    .pickerStyle(.segmented)
                 }
                 
                 Section("Input Section") {
-                    Text("Input type picker")
-                    TextField("Input", text: .constant(""))
+                    Picker("Input Unit", selection: $selectedInputUnit) {
+                        ForEach(units(for: selectedUnitType), id: \.self) { Text($0) }
+                    }
+                    .pickerStyle(.segmented)
+                    
+                    TextField("Value", value: $inputValue, format: .number)
+                        .keyboardType(.decimalPad)
                 }
                 
                 Section("Output Section") {
-                    Text("Output type picker")
-                    Text("Output")
+                    Picker("Output Unit", selection: $selectedOutputUnit) {
+                        ForEach(units(for: selectedUnitType), id: \.self) { Text($0) }
+                    }
+                    .pickerStyle(.segmented)
+                    
+                    Text("\(outputValue, specifier: "%.2f") \(selectedOutputUnit)")
                 }
             }
             .navigationTitle("Unit Converter")
+        }
+    }
+    
+    // MARK: HELPER FUNCTIONS
+    func units(for type: String) -> [String] {
+        switch type {
+        case "Time": return timeUnits
+        case "Length": return lengthUnits
+        case "Temperature": return temperatureUnits
+        default: return []
         }
     }
     
