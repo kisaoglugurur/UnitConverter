@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    // MARK: STATE VARIABLE FOR HIDING KEYBOARD
+    @FocusState private var isFocused: Bool
 
     // MARK: UNIT TYPES
     let unitTypes = ["Time", "Length", "Temperature"]
@@ -58,6 +60,7 @@ struct ContentView: View {
                     
                     TextField("Value", value: $inputValue, format: .number)
                         .keyboardType(.decimalPad)
+                        .focused($isFocused)
                 }
                 
                 Section("Output Section") {
@@ -70,6 +73,13 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Unit Converter")
+            .toolbar {
+                if isFocused {
+                    Button("Done") {
+                        isFocused = false
+                    }
+                }
+            }
         }
     }
     
