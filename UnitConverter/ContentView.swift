@@ -9,13 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            Form {
+                Section("Unit type") {
+                    Text("Unit type picker")
+                }
+                
+                Section("Input Section") {
+                    Text("Input type picker")
+                    TextField("Input", text: .constant(""))
+                }
+                
+                Section("Output Section") {
+                    Text("Output type picker")
+                    Text("Output")
+                }
+            }
+            .navigationTitle("Unit Converter")
         }
-        .padding()
     }
 }
 
