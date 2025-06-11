@@ -50,6 +50,9 @@ struct ContentView: View {
                         ForEach(unitTypes, id: \.self) { Text($0) }
                     }
                     .pickerStyle(.segmented)
+                    .onChange(of: selectedUnitType) {
+                        updateUnitSelections(for: selectedUnitType)
+                    }
                 }
                 
                 Section("Input Section") {
@@ -91,6 +94,12 @@ struct ContentView: View {
         case "Temperature": return temperatureUnits
         default: return []
         }
+    }
+    
+    func updateUnitSelections(for type: String) {
+        let units = units(for: type)
+        selectedInputUnit = units.first ?? ""
+        selectedOutputUnit = units.dropFirst().first ?? units.first ?? ""
     }
     
     // MARK: CONVERSION FUNCTIONS
