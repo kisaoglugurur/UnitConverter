@@ -8,6 +8,38 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    // MARK: UNIT TYPES
+    let unitTypes = ["Time", "Length", "Temperature"]
+    @State private var selectedUnitType = "Time"
+    
+    // MARK: UNITS
+    let timeUnits: [String] = ["Hour", "Minute", "Second", "Millisecond"]
+    let lengthUnits: [String] = ["Kilometer", "Meter", "Centimeter", "Millimeter"]
+    let temperatureUnits: [String] = ["Celsius", "Fahrenheit", "Kelvin"]
+    
+    // MARK: INPUT / OUTPUT VARIABLES
+    @State private var selectedInputUnit: String = "Hour"
+    @State private var selectedOutputUnit: String = "Minute"
+    @State private var inputValue: Double = 1.0
+    
+    // MARK: COMPUTED OUTPUT VALUE
+    var outputValue: Double {
+        switch selectedUnitType {
+        case "Time":
+            let seconds = convertTimeToSeconds(inputValue, from: selectedInputUnit)
+            return convertTimeFromSeconds(seconds, to: selectedOutputUnit)
+        case "Length":
+            let meters = convertLengthToMeters(inputValue, from: selectedInputUnit)
+            return convertLengthFromMeters(meters, to: selectedOutputUnit)
+        case "Temperature":
+            let celsius = convertTempToCelsius(inputValue, from: selectedInputUnit)
+            return convertTempFromCelsius(celsius, to: selectedOutputUnit)
+        default:
+            return 0
+        }
+    }
+
     var body: some View {
         NavigationStack {
             Form {
